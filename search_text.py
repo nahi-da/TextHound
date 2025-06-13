@@ -230,14 +230,15 @@ class SearchLine(object):
 
     # ウィンドウを中央に表示する
     def centering_main_window(self):
-        screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight()
-        self.root.update_idletasks()
-        window_width = self.root.winfo_width()
-        window_height = self.root.winfo_height()
-        x = screen_width / 2 - window_width / 2
-        y = screen_height / 2 - window_height / 2
-        self.root.geometry("+%d+%d" % (x, y))
+        if sys.platform == "win32":
+            screen_width = self.root.winfo_screenwidth()
+            screen_height = self.root.winfo_screenheight()
+            self.root.update_idletasks()
+            window_width = self.root.winfo_width()
+            window_height = self.root.winfo_height()
+            x = screen_width / 2 - window_width / 2
+            y = screen_height / 2 - window_height / 2
+            self.root.geometry("+%d+%d" % (x, y))
 
     # 指定したディレクトリから特定の拡張子のファイルを検索し、キーワードが含まれるファイルを保存
     def search_files(self):
