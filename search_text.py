@@ -23,6 +23,11 @@ except ImportError:
             os.execl(exec_dir.joinpath("python.exe"), f"-u {__file__} --rerun")
         elif sys.platform == "linux":
             os.execl(exec_dir.joinpath("python3"), f"-u {__file__} --rerun")
+except Exception as e:
+    import traceback
+    input("\n".join(traceback.TracebackException.from_exception(e).format()))
+else:
+    import sys
 
 # from multiprocessing import Process
 from threading import Thread
@@ -78,9 +83,8 @@ class SearchLine(object):
         self.strvar_1_dir = tk.StringVar(frame_1)
         entry_1_dir = ttk.Entry(frame_1, textvariable=self.strvar_1_dir, width=ENTRY1_WIDTH, font=(DEFAULT_FONT_NAME, 10, "normal"))
         entry_1_dir.pack(fill=tk.X)
-        entry_1_dir.bind("<Button-1>", self.get_target_directory)
-        # ダブルクリック時の全選択を抑止
-        entry_1_dir.bind("<Double-Button-1>", lambda e: "break")
+        entry_1_dir.bind("<Double-Button-1>", self.get_target_directory)
+        
 
         # 拡張子入力欄
         frame_2 = tk.Frame(self.root)
@@ -178,8 +182,14 @@ class SearchLine(object):
 
     # フォルダー選択ダイアログ用
     def get_target_directory(self, e: tk.Event):
+        # ダブルクリックをトリガーにして挿入した文字列は選択状態になり、
+        # 且つselection系のメゾッドで選択状態を解除できない。
+        # ただ、state=DISABLEDであれば選択状態にならないので、イベント検知後すぐに
+        # DISABLEDにして、文字列の挿入が終わったらstateを戻している
+        e.widget.configure(state=tk.DISABLED)
         res = filedialog.askdirectory(mustexist=True)
         self.strvar_1_dir.set(res)
+        self.root.after(100, lambda :e.widget.config(state=tk.NORMAL))
 
     def add_entry(self, pframe, entries:list, dir_name=""):
         # 一行分の Frame（Label/Entry と 削除ボタンを並べる）
