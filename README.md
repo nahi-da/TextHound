@@ -13,7 +13,21 @@ TextHoundは、指定されたフォルダ内のテキストファイルを検�
 - ヒットしたファイルのパスと、行番号付きの該当行を表示
 - CUI での対話形式およびコマンドライン引数にも対応
 
-## 使い方（CUI版）
+
+## 使い方（GUI版）
+### 実行方法
+
+```bash
+python search_text.py
+```
+
+### スクリーンショット
+
+!["ss1"](.github/ss1.png)
+
+---
+
+## 使い方（旧型）
 
 ### 1. 対話形式で実行
 
@@ -54,18 +68,6 @@ python search_text_cui.py -t ./src -i .git,venv -k TODO,FIXME -e .py -m or
 
 ---
 
-## 使い方（GUI版）
-### 実行方法
-
-```bash
-python search_text.py
-```
-
-### スクリーンショット
-
-!["ss1"](.github/ss1.png)
-
----
 
 ## 出力例
 
